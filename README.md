@@ -14,11 +14,25 @@ An intelligent inventory management agent built with Google's Agent Development 
 
 ## Prerequisites
 
-- Python 3.12+
-- `uv` package manager
+- Python 3.12+ (or Docker - see below)
+- `uv` package manager (or Docker)
 - Google AI API Key ([Get one here](https://aistudio.google.com/app/apikey))
 
-## Setup
+## Quick Start with Docker 🐳 (Recommended for Students)
+
+**Easiest way - One command:**
+
+```bash
+# Add your API key to .env
+echo "GOOGLE_API_KEY=your-key" > .env
+
+# Start everything (MySQL + Agent)
+docker-compose up
+```
+
+See [DOCKER.md](DOCKER.md) for details.
+
+## Manual Setup
 
 1. **Initialize the project with uv:**
 ```bash
