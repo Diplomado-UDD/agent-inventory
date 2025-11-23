@@ -6,6 +6,7 @@ An intelligent inventory management agent built with Google's Agent Development 
 
 - **ReAct Pattern**: Reasoning + Acting for autonomous decision-making
 - **Custom Tools**: Local inventory management (in-memory database)
+- **MySQL Support**: Optional MySQL backend for persistent storage
 - **External API**: Integration with dummyjson.com for supplier data
 - **Q&A Capabilities**: Answers inventory-related questions
 - **Guard Rails**: Politely rejects off-topic requests
@@ -29,6 +30,31 @@ uv add google-adk requests python-dotenv
 ```bash
 echo "GOOGLE_API_KEY=your-api-key-here" > .env
 ```
+
+## Optional: MySQL Backend
+
+By default, the agent uses in-memory storage. For persistent storage with MySQL:
+
+1. **Start MySQL** (using Docker):
+```bash
+docker run --name mysql-inventory \
+  -e MYSQL_ROOT_PASSWORD=inventory123 \
+  -e MYSQL_DATABASE=inventory_db \
+  -p 3306:3306 -d mysql:8.0
+```
+
+2. **Configure .env**:
+```bash
+USE_MYSQL=true
+MYSQL_PASSWORD=inventory123
+```
+
+3. **Initialize database**:
+```bash
+uv run python -m inventory_system.init_db
+```
+
+See [MYSQL_SETUP.md](MYSQL_SETUP.md) for detailed instructions.
 
 ## Running the Simulation
 
