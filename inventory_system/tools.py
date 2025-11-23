@@ -1,46 +1,6 @@
 import requests
 from typing import Dict, Optional
-
-class InventoryDB:
-    def __init__(self):
-        self._db: Dict[str, int] = {
-            "Laptop": 5,
-            "Smartphone": 20,
-            "Headphones": 50
-        }
-
-    def check_stock(self, product_name: str) -> str:
-        """Checks the current stock level of a product.
-
-        Args:
-            product_name: The name of the product to check.
-
-        Returns:
-            A string describing the stock level.
-        """
-        quantity = self._db.get(product_name, 0)
-        return f"Product: {product_name}, Quantity: {quantity}"
-
-    def update_stock(self, product_name: str, quantity_change: int) -> str:
-        """Updates the stock level of a product.
-
-        Args:
-            product_name: The name of the product.
-            quantity_change: The amount to change the stock by (positive to add, negative to remove).
-
-        Returns:
-            A confirmation message.
-        """
-        current = self._db.get(product_name, 0)
-        new_quantity = current + quantity_change
-        if new_quantity < 0:
-            return f"Error: Cannot reduce stock below 0. Current: {current}"
-        
-        self._db[product_name] = new_quantity
-        return f"Updated {product_name}. Old: {current}, New: {new_quantity}"
-
-# Instantiate the DB to be used by the tool
-_inventory_db = InventoryDB()
+from .database import _inventory_backend
 
 def check_inventory(product_name: str) -> str:
     """Checks the local inventory for a product's stock level.
@@ -48,7 +8,7 @@ def check_inventory(product_name: str) -> str:
     Args:
         product_name: The name of the product to check.
     """
-    return _inventory_db.check_stock(product_name)
+    return _inventory_backend.check_stock(product_name)
 
 def update_inventory(product_name: str, quantity: int) -> str:
     """Updates the local inventory stock.
@@ -57,7 +17,7 @@ def update_inventory(product_name: str, quantity: int) -> str:
         product_name: The name of the product.
         quantity: The amount to add (positive) or remove (negative).
     """
-    return _inventory_db.update_stock(product_name, quantity)
+    return _inventory_backend.update_stock(product_name, quantity)
 
 def search_supplier(query: str) -> str:
     """Searches for products from an external supplier API to check availability and price.
