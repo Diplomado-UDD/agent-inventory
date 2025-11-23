@@ -5,8 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "adk>=0.0.5",
     "google-adk>=1.19.0",
     "mysql-connector-python>=9.5.0",
     "python-dotenv>=1.2.1",
     "requests>=2.32.5",
+    "streamlit>=1.51.0",
 ]
