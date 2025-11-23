@@ -124,9 +124,15 @@ The agent will:
 agent-inventory/
 ├── inventory_system/
 │   ├── agent.py       # ADK Agent definition with guard rails
+│   ├── database.py    # Backend abstraction (in-memory/MySQL)
+│   ├── init_db.py     # MySQL database initialization
 │   ├── tools.py       # Inventory & Supplier tools
 │   └── main.py        # Simulation runner
 ├── test_agent.py      # Test script with multiple scenarios
+├── Dockerfile         # Container image definition
+├── docker-compose.yml # Multi-container orchestration
+├── DOCKER.md          # Docker setup guide
+├── MYSQL_SETUP.md     # MySQL configuration guide
 ├── architecture.md    # Mermaid diagrams
 └── README.md          # This file
 ```

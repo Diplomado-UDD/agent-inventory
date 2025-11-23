@@ -31,10 +31,46 @@ graph LR
 ### Agent (ReAct Pattern)
 - **Reasoning**: Analyzes inventory levels and determines actions
 - **Acting**: Executes tools to check stock, search suppliers, place orders
+- **Guard Rails**: Rejects off-topic requests with polite explanations
 
 ### Tools
-1. **Local Inventory DB**: In-memory storage for current stock levels
-2. **Supplier API**: External API (dummyjson.com) for product search and ordering
+
+#### 1. **Inventory Database** (Configurable Backend)
+- **In-Memory Mode** (default): Fast, stateless, perfect for demos
+- **MySQL Mode** (optional): Persistent storage, production-ready
+- Backend abstraction allows switching via environment variable
+
+#### 2. **Supplier API**
+- External API (dummyjson.com) for product search and ordering
+- HTTP-based integration with error handling
+
+## Deployment Options
+
+### Option 1: Docker Compose (Recommended)
+```mermaid
+graph TB
+    DC[Docker Compose]
+    DC --> AC[Agent Container<br/>Python 3.12 + ADK]
+    DC --> MC[MySQL Container<br/>MySQL 8.0]
+    AC -->|TCP 3306| MC
+    MC --> Vol[(Volume<br/>mysql_data)]
+    
+    style DC fill:#2496ED,stroke:#1769AA,color:#fff
+    style AC fill:#4A90E2,stroke:#2E5C8A,color:#fff
+    style MC fill:#00758F,stroke:#004E66,color:#fff
+    style Vol fill:#95A5A6,stroke:#7F8C8D,color:#fff
+```
+
+**Benefits**: One command setup, consistent environment, easy cleanup
+
+### Option 2: Local Development
+- In-memory database (no setup)
+- Or connect to external MySQL instance
+
+### Option 3: Production Deployment
+- Deploy agent container to cloud (Cloud Run, ECS, etc.)
+- Connect to managed MySQL (Cloud SQL, RDS, etc.)
+
 
 
 ## Sequence Diagram
