@@ -92,6 +92,28 @@ uv run python test_agent.py
 - ✅ Inventory questions: "How many products do we have?"
 - ❌ Off-topic (rejected): "What's the weather?" or "Tell me a joke"
 
+## Web Interface 🌐
+
+Launch the interactive ADK server:
+
+```bash
+# Start the ADK RPC server
+uv run adk start -port 8000
+
+# Or use the built-in runner with web access
+# The agent can be accessed via API at the configured port
+```
+
+The ADK provides a server interface that can be accessed programmatically or through custom UIs. When running with MySQL (`USE_MYSQL=true`), all conversations are automatically logged with:
+- **User questions** - Full conversation history
+- **Agent reasoning** - Decision-making process  
+- **Tool calls & responses** - Complete audit trail
+
+Query conversation history in MySQL:
+```sql
+SELECT * FROM conversations ORDER BY created_at DESC LIMIT 10;
+```
+
 ## Agent Capabilities
 
 The agent can:

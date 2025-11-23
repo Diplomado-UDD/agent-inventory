@@ -77,6 +77,10 @@ def init_database():
         
         print(f"\n✅ Database initialization complete!")
         
+        # Initialize conversation logging tables
+        from inventory_system.conversation_logger import conversation_logger
+        conversation_logger.init_tables()
+        
     except Error as e:
         print(f"❌ Error: {e}")
         return False
