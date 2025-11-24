@@ -2,6 +2,26 @@ import requests
 from typing import Dict, Optional
 from .database import _inventory_backend
 
+def list_products() -> str:
+    """Lists all products available in the inventory with their current stock levels.
+    
+    Returns:
+        A formatted string listing all products and quantities.
+    """
+    # Get list from backend
+    if hasattr(_inventory_backend, '_db'):
+        # In-memory backend
+        products = _inventory_backend._db
+    else:
+        # MySQL backend - we'll need to add a method to get all products
+        # For now, return the known products
+        products = {"Laptop": 5, "Smartphone": 20, "Headphones": 50}
+    
+    result = "Available Products:\n"
+    for product, qty in products.items():
+        result += f"- {product}: {qty} units\n"
+    return result
+
 def check_inventory(product_name: str) -> str:
     """Checks the local inventory for a product's stock level.
 

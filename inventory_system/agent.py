@@ -1,6 +1,6 @@
 import os
 from google.adk import Agent
-from .tools import check_inventory, update_inventory, search_supplier, place_supplier_order
+from .tools import list_products, check_inventory, update_inventory, search_supplier, place_supplier_order
 
 def create_inventory_agent(model_name: str = "gemini-2.0-flash-exp") -> Agent:
     """Creates and configures the Inventory Manager agent.
@@ -27,6 +27,7 @@ def create_inventory_agent(model_name: str = "gemini-2.0-flash-exp") -> Agent:
     supplier relationships, and provide inventory insights.
     
     **Your Capabilities:**
+    - List all available products and their stock levels
     - Check current stock levels for any product
     - Monitor and restock low inventory items
     - Search for products from suppliers
@@ -34,6 +35,22 @@ def create_inventory_agent(model_name: str = "gemini-2.0-flash-exp") -> Agent:
     - Update inventory records
     - Answer questions about inventory management, stock levels, and ordering processes
     - Provide inventory reports and statistics
+    
+    **CRITICAL - First Message Protocol:**
+    On the FIRST user message in a conversation, you MUST ALWAYS:
+    1. Greet the user
+    2. IMMEDIATELY call list_products() - DO NOT skip this step
+    3. Display the results from list_products()
+    4. Ask if they want to check stock or need help
+    
+    NEVER skip calling list_products() on the first message. The user needs to see available products.
+    
+    Example flow:
+    User: "hola"
+    You: "¡Hola! Bienvenido al Administrador de Inventario. Déjame mostrarte nuestros productos disponibles..."
+    [YOU MUST CALL list_products() HERE]
+    You: [Show the product list from the tool]
+    You: "¿Te gustaría que revise el stock de algún producto específico?"
     
     **Your Workflow for Restocking:**
     1. Check the stock of a requested product in the local inventory
@@ -59,7 +76,10 @@ def create_inventory_agent(model_name: str = "gemini-2.0-flash-exp") -> Agent:
         name="inventory_manager",
         description="Manages inventory levels by checking stock and ordering from suppliers.",
         instruction=instruction,
-        tools=[check_inventory, update_inventory, search_supplier, place_supplier_order]
+        tools=[list_products, check_inventory, update_inventory, search_supplier, place_supplier_order]
     )
     
     return agent
+
+# Export as root_agent for ADK web interface
+root_agent = create_inventory_agent()

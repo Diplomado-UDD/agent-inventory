@@ -5,11 +5,16 @@ An intelligent inventory management agent built with Google's Agent Development 
 ## Features
 
 - **ReAct Pattern**: Reasoning + Acting for autonomous decision-making
-- **Custom Tools**: Local inventory management (in-memory database)
+- **Custom Tools**: Local inventory management with in-memory or MySQL backend
+- **Product Listing**: Automatically shows available products at conversation start
 - **MySQL Support**: Optional MySQL backend for persistent storage
+- **Conversation Logging**: All interactions logged to MySQL for analysis
 - **External API**: Integration with dummyjson.com for supplier data
-- **Q&A Capabilities**: Answers inventory-related questions
+- **Q&A Capabilities**: Answers inventory-related questions in multiple languages
 - **Guard Rails**: Politely rejects off-topic requests
+- **Evaluation Sets**: Pre-built test cases for systematic agent testing
+- **Web Interface**: Full ADK web UI for interactive testing and debugging
+- **Docker Support**: One-command deployment with Docker Compose
 - **Full ADK Implementation**: Uses Google's official Agent Development Kit
 
 ## Prerequisites
@@ -78,19 +83,71 @@ Execute the main script:
 uv run python -m inventory_system.main
 ```
 
-## Testing the Agent
+## ADK Web Interface 🌐
 
-Test various scenarios including on-topic and off-topic requests:
+### Launch the Interactive UI
 
+**One simple command:**
 ```bash
-uv run python test_agent.py
+uv run python -m google.adk.cli web
 ```
 
-**Test Cases:**
-- ✅ Stock queries: "What's the current stock of Smartphone?"
-- ✅ Restock requests: "Check laptop stock and restock if needed"
-- ✅ Inventory questions: "How many products do we have?"
-- ❌ Off-topic (rejected): "What's the weather?" or "Tell me a joke"
+**Access:** http://127.0.0.1:8000
+
+The web interface provides:
+- ✅ Visual chat interface with your inventory agent
+- ✅ Real-time tool execution visualization
+- ✅ Session management and history
+- ✅ Evaluation testing UI
+- ✅ Automatic MySQL conversation logging (when enabled)
+
+### Using the Interface
+
+1. **Select Agent**: Choose `inventory_system` from dropdown
+2. **Start Chatting**: Say "hello" to see product list automatically
+3. **Ask Questions**: "How many laptops?" or "Check smartphone stock"
+4. **Test Workflows**: "Check laptop stock and restock if needed"
+5. **Run Evals**: Click "Eval" tab to run test cases
+
+See [ADK_WEB_UI.md](ADK_WEB_UI.md) for more details.
+
+## Evaluation Sets
+
+Test your agent systematically with pre-built eval sets.
+
+**Run evaluations:**
+```bash
+# Via command line
+uv run python -m google.adk.cli eval inventory_system
+
+# Or use the Eval tab in web UI
+```
+
+See [EVAL_GUIDE.md](EVAL_GUIDE.md) for creating custom eval sets.
+
+## ADK Web Interface 🌐
+
+**Visual interactive UI** for chatting with your agent.
+
+**Setup** (one-time):
+```bash
+# Already cloned in adk-web/ directory
+cd adk-web
+npm install  # Already done
+```
+
+**Run** (two terminals):
+```bash
+# Terminal 1: API Server
+uv run adk start -port 8000
+
+# Terminal 2: Web UI  
+cd adk-web && npm run serve --backend=http://localhost:8000
+```
+
+**Access:** http://localhost:4200
+
+See [ADK_WEB_UI.md](ADK_WEB_UI.md) for details.
 
 ## Running the Agent
 

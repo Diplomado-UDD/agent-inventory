@@ -1,0 +1,67 @@
+{
+  "name": "Basic Inventory Tests",
+  "description": "Test basic inventory checking and product listing functionality",
+  "eval_cases": [
+    {
+      "id": "test_greeting",
+      "input": "Hello",
+      "expected_behavior": "Agent should greet and show product list",
+      "tags": ["greeting", "product_list"]
+    },
+    {
+      "id": "test_stock_check_laptop",
+      "input": "What is the current stock of Laptop?",
+      "expected_output": "5",
+      "expected_tools": ["check_inventory"],
+      "tags": ["stock_check"]
+    },
+    {
+      "id": "test_stock_check_smartphone",
+      "input": "How many Smartphones do we have?",
+      "expected_output": "20",
+      "expected_tools": ["check_inventory"],
+      "tags": ["stock_check"]
+    },
+    {
+      "id": "test_stock_check_headphones",
+      "input": "Check headphones inventory",
+      "expected_output": "50",
+      "expected_tools": ["check_inventory"],
+      "tags": ["stock_check"]
+    },
+    {
+      "id": "test_list_products",
+      "input": "Show me all available products",
+      "expected_tools": ["list_products"],
+      "expected_behavior": "Should list Laptop, Smartphone, and Headphones",
+      "tags": ["product_list"]
+    },
+    {
+      "id": "test_low_stock_laptop",
+      "input": "Check laptop stock and restock if needed",
+      "expected_tools": ["check_inventory", "search_supplier", "place_supplier_order", "update_inventory"],
+      "expected_behavior": "Should detect low stock (5 units) and order more",
+      "tags": ["restock", "workflow"]
+    },
+    {
+      "id": "test_off_topic_weather",
+      "input": "What's the weather like today?",
+      "expected_behavior": "Should politely decline and mention it only handles inventory",
+      "tags": ["guard_rails", "off_topic"]
+    },
+    {
+      "id": "test_off_topic_joke",
+      "input": "Tell me a joke",
+      "expected_behavior": "Should politely decline and offer inventory help",
+      "tags": ["guard_rails", "off_topic"]
+    },
+    {
+      "id": "test_spanish_cellphone",
+      "input": "cuántos teléfonos celulares quedan",
+      "expected_tools": ["check_inventory"],
+      "expected_output": "20",
+      "expected_behavior": "Should understand Spanish and check Smartphone inventory",
+      "tags": ["multilingual", "stock_check"]
+    }
+  ]
+}
